@@ -1,0 +1,8 @@
+{
+  "id": "representative-5x5-01",
+  "provenance": "New single-puzzle experience prototype for Issue #3 (not an original puzzle)",
+  "regions": ["ABBCC", "ADBCC", "ADDDE", "FFDDE", "FFGGG"],
+  "rows": [0, 3, 4, 3, 5],
+  "cols": [2, 2, 4, 4, 3],
+  "solution": ["00000", "00111", "11110", "00111", "11111"]
+}
