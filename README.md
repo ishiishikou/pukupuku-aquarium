@@ -37,6 +37,8 @@ python -m unittest discover -s scripts -p 'test_*.py'
 
 ## 資料
 
+別チャットで再開するときは[引き継ぎ入口](docs/handoff.md)から確認してください。資料がmainへマージ済みか、PR #1のブランチにあるかを最初に確認します。
+
 - [設計レビューと代替案の比較](docs/design-review.md)
 - [原版の独立レビュー・操作確認](docs/original-review.md)
 - [原版10問の推理ログ](docs/original-logic-traces.md)
