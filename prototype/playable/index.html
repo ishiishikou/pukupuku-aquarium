@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#d5f3f0">
+<title>ぷくぷく水槽 | 代表1問</title>
+<style>
+:root{font-family:system-ui,-apple-system,"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;color:#214655;background:#eaf8f6;font-synthesis:none}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 90% 3%,#c2eaf7 0,transparent 34%),linear-gradient(170deg,#e6faf5,#e7f2fb 78%);padding:26px 16px 58px}
+main{max-width:850px;margin:auto}header{text-align:center;margin:0 auto 19px}h1{margin:0;font-weight:850;letter-spacing:.07em;color:#246c78;font-size:clamp(27px,5vw,39px)}
+.sub{color:#557981;font-size:13px;margin:9px 0 0}.layout{display:grid;grid-template-columns:minmax(0,1.14fr) minmax(230px,.86fr);align-items:start;gap:18px}
+.panel{border:1px solid #c4e3e4;background:#ffffffeb;border-radius:25px;box-shadow:0 9px 28px #357b8b13;padding:21px}
+.kicker{font-size:11px;font-weight:800;letter-spacing:.14em;color:#518e91;text-transform:uppercase}
+h2{font-size:17px;margin:5px 0 12px}.muted{color:#63818b;font-size:13px;line-height:1.65}button{font:inherit;cursor:pointer;touch-action:manipulation}button:focus-visible{outline:3px solid #f5a94d;outline-offset:2px}
+.modes{display:flex;gap:9px;margin:0 0 17px}.mode{flex:1;min-height:47px;border-radius:14px;border:2px solid #b9d7dd;background:#f4fbfc;font-weight:800;color:#3c6572;transition:background .12s}.mode[aria-pressed=true]{border-color:#168c9b;background:#d7f5f5;color:#076876;box-shadow:0 2px 0 #168c9b}.mode .symbol{font-size:20px;vertical-align:-1px;margin-right:4px}
+.puzzle-frame{--sz:min(14.7vw,60px);width:fit-content;max-width:100%;margin:0 auto 8px}
+.top-clues{display:grid;grid-template-columns:repeat(5,var(--sz));margin-left:37px}.line-clue{text-align:center;color:#4d7180;font-weight:800;font-size:18px;display:grid;place-items:center}
+.top-clues .line-clue{height:32px}.board-line{display:flex}.row-clue{width:37px;min-width:37px;height:var(--sz)}.clue-met{color:#127b59!important}.clue-met .clue-mark{background:#d7f4e6;border-radius:50%;width:29px;height:29px;display:grid;place-items:center}
+.board{display:grid;grid-template-columns:repeat(5,var(--sz));grid-template-rows:repeat(5,var(--sz));overflow:visible;isolation:isolate;border-radius:8px}
+.cell{border-style:solid;border-color:#9bbec4;border-width:1px;background:#f2fbfa;color:#59737d;position:relative;display:flex;align-items:center;justify-content:center;padding:0;overflow:hidden;user-select:none;-webkit-tap-highlight-color:transparent;min-width:0;min-height:0;transition:background .12s,transform .08s}
+.cell.unknown{background:linear-gradient(145deg,#fafdfe,#e6f4f4)}.cell.unknown:before{content:"";width:5px;height:5px;border-radius:50%;background:#bdd6d7}
+.cell.water{background:linear-gradient(150deg,#91e3ee 0%,#43b7d7 70%,#2398bf 100%);color:#fff}
+.cell.water:before{content:"";position:absolute;top:5px;left:12%;right:12%;height:3px;border-radius:80%;background:#ffffff86}
+.cell.water .glyph{font-size:24px;transform:rotate(-9deg);opacity:.88}.cell.dry{background:#eff6f5;color:#8ba4aa}.cell.dry .glyph{font-size:27px;font-weight:300;line-height:1}
+.cell.related:not(.water){background:#e2f5ef}.cell.related.water{filter:saturate(1.22)}.cell:active{transform:scale(.96)}.cell .pop{pointer-events:none;position:absolute;inset:24%;border-radius:50%;border:2px solid #fff;animation:pop .42s ease-out forwards}
+@keyframes pop{0%{opacity:.95;transform:scale(.25)}100%{opacity:0;transform:scale(2.5)}}
+.legend{margin:14px 0 0;text-align:center;color:#66858b;font-size:11px;line-height:1.6}.legend b{font-weight:850;color:#168263}
+.actions{display:flex;gap:8px;margin-top:15px}.secondary{background:#f3f9f8;border:1px solid #b8d9d9;color:#326d74;border-radius:12px;min-height:43px;padding:8px 15px;font-weight:700;flex:1}.secondary:disabled{opacity:.48;cursor:default}
+.status{min-height:51px;line-height:1.6;margin:13px 0 0;padding:11px 13px;border-radius:12px;background:#f1f9f7;color:#376d76;font-size:13px;display:flex;align-items:center}.status.warn{background:#fff1e7;color:#925e28}.status.good{background:#e5f5ec;color:#287452}
+.hint{border-top:1px solid #d9e8e7;margin-top:16px;padding-top:15px}.hint-button{background:#287f8a;border:0;color:white;border-radius:13px;padding:12px 16px;font-weight:800;width:100%;min-height:46px}
+.hint-box{background:#ecf8f6;border-left:4px solid #3b99a6;border-radius:9px;padding:12px 13px;margin-top:12px;font-size:13px;line-height:1.7;color:#335c68}.hint-box p{margin:5px 0}.hint-box strong{color:#126a7a}.hint-box[hidden]{display:none}
+.rules{padding:0 0 0 20px;margin:12px 0;font-size:13px;line-height:1.85;color:#436a72}.rules li{padding-left:2px}
+.settings{margin-top:15px;display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:#567984}.settings label{display:flex;align-items:center;gap:6px;cursor:pointer}
+.settings input{accent-color:#178a98}.smallnote{font-size:12px;color:#6f8a8f;line-height:1.7;margin-top:14px}
+.endbox{margin-top:15px;border:1px solid #a3d7cd;background:#e9f8f0;border-radius:16px;padding:16px}.endbox[hidden]{display:none}.endbox h3{margin:0 0 8px;color:#196d67}.endbox p{margin:0 0 13px;font-size:13px;line-height:1.65}
+.endbuttons{display:flex;gap:8px}.endbuttons button{flex:1}.endbox .primary{background:#277f88;color:white;border:0;border-radius:12px;font-weight:750;padding:12px 9px}.endbox .secondary{background:white}
+.footer{text-align:center;font-size:12px;color:#72929a;margin:20px 0 0}
+@media(max-width:700px){body{padding:18px 12px 45px}.layout{display:block}.layout>.panel+ .panel{margin-top:15px}.panel{padding:18px 14px}.puzzle-frame{--sz:min(15.5vw,59px)}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main>
+<header><div class="kicker">SINGLE PUZZLE · PROTOTYPE</div><h1>ぷくぷく水槽</h1><p class="sub">ひとつ気づく。ぷくぷく埋める。また気づく。</p></header>
+<div class="layout">
+<section class="panel" aria-label="パズル">
+<div class="kicker">本編の代表1問</div><h2>水面をととのえよう <span class="muted">5 × 5</span></h2>
+<div class="modes" role="group" aria-label="入力モード">
+<button class="mode" id="mode-water" type="button" aria-pressed="true"><span class="symbol">≈</span> 水を入れる</button>
+<button class="mode" id="mode-dry" type="button" aria-pressed="false"><span class="symbol">×</span> 乾燥にする</button>
+</div>
+<div class="puzzle-frame">
+<div id="top-clues" class="top-clues" aria-label="列の水の数"></div>
+<div class="board-line"><div id="row-clues" aria-label="行の水の数"></div><div id="board" class="board" role="group" aria-label="5×5水槽パズル"></div></div>
+</div>
+<div class="legend">太い線＝水槽の壁　・＝未確定　×＝乾燥<br><b>緑の数字</b>＝水の個数が一致（正解判定ではありません）</div>
+<div class="actions"><button id="undo" class="secondary" type="button">↶ ひとつ戻す</button><button id="restart" class="secondary" type="button">最初から</button></div>
+<div id="status" role="status" aria-live="polite" class="status">まずは0の行と5の行を探してみましょう。</div>
+<div id="endbox" class="endbox" hidden><h3>水槽がととのいました</h3><p>クリアです。ここで終わっても大丈夫。いまは代表1問だけの試作です。</p><div class="endbuttons"><button class="primary" id="play-again" type="button">同じ問題をもう一度</button><button class="secondary" id="finish" type="button">今日はここまで</button></div></div>
+</section>
+<aside class="panel" aria-label="遊び方とヒント">
+<div class="kicker">HOW TO PLAY</div><h2>水槽のルール</h2>
+<ol class="rules">
+<li>縦と横の数字は、それぞれの水マスの合計。</li>
+<li>太い線で囲まれた水槽には、<b>下から水がたまります</b>。</li>
+<li>同じ水槽の同じ高さは<b>全部水、または全部乾燥</b>になります。</li>
+<li>すべてのマスを水か×に確定すると、条件を確認します。</li>
+</ol>
+<p class="muted">入力モードを選び、マスをタップ。同じモードでもう一度タップすると未確定へ戻ります。間違えても減点なし。</p>
+<div class="hint"><button id="hint" class="hint-button" type="button">ヒント：どこを見る？</button><div id="hint-box" class="hint-box" aria-live="polite" hidden></div></div>
+<div class="settings"><label><input type="checkbox" id="sound"> 入力音</label><label><input type="checkbox" id="motion" checked> 泡の動き</label><label><input type="checkbox" id="vibration"> 対応端末の振動</label></div>
+<div class="smallnote">途中の入力はこのブラウザに保存します。音は初期OFF。ブラウザの振動はiPhoneで保証されず、実機触覚の評価には含めません。答えを自動表示・自動入力するヒントではありません。</div>
+</aside>
+</div>
+<p class="footer">Issue #3 · 代表1問の体験検証版。残りの問題と実機触覚は未制作・未評価です。</p>
+</main>
+<script>
+(function(){
+"use strict";
+var REGIONS=["ABBCC","ADBCC","ADDDE","FFDDE","FFGGG"];
+var ROWS=[0,3,4,3,5],COLS=[2,2,4,4,3];
+var KEY="pukupuku-improved-representative-01-v1";
+var board=Array(25).fill(-1),mode=1,history=[],hintIndex=-1,hintStage=-1,selectedRegion="",finished=false,audioCtx=null;
+var root=document.getElementById("board"),cells=[],rowEls=[],colEls=[];
+var status=document.getElementById("status"),endbox=document.getElementById("endbox"),hintBox=document.getElementById("hint-box"),hintButton=document.getElementById("hint");
+var hints=[
+ {target:[0,1,2,3,4],v:0,where:"1行目（数字0）",why:"1行目の水は0マス。どの水槽もこの行では乾燥です。",answer:"1行目の5マスをすべて×にできます。"},
+ {target:[20,21,22,23,24],v:1,where:"5行目（数字5）",why:"5行目の水は5マス。すべてが水です。",answer:"5行目の5マスに水を入れられます。"},
+ {target:[7,12,17],v:1,where:"3列目（数字4）",why:"1行目は乾燥。3列目の残る4マスはすべて水になります。",answer:"2〜4行目の3列目に水を入れられます（5行目は入力済み）。"},
+ {target:[8,13,18],v:1,where:"4列目（数字4）",why:"1行目は乾燥。4列目の残り4マスはすべて水になります。",answer:"2〜4行目の4列目に水を入れられます。"},
+ {target:[9],v:1,where:"2行目の水槽C（右上）",why:"2行4列が水。同じ水槽Cの同じ高さは、水か乾燥かが揃います。",answer:"2行5列も水です。"},
+ {target:[11],v:1,where:"3行目の水槽D（中央）",why:"3行3列が水。同じ水槽Dの同じ高さは全部水です。",answer:"3行2列にも水を入れられます。"},
+ {target:[5,6],v:0,where:"2行目（数字3）",why:"2行3〜5列の3マスが水になり、必要な3マスを満たしました。",answer:"2行1・2列は×です。"},
+ {target:[16],v:0,where:"2列目（数字2）",why:"3行2列と5行2列で、水が合計2マスになっています。",answer:"4行2列は×です。"},
+ {target:[15],v:0,where:"4行目の水槽F（左下）",why:"4行2列が乾燥なので、同じ水槽Fの同じ高さの4行1列も乾燥です。",answer:"4行1列は×です。"},
+ {target:[19],v:1,where:"4行目（数字3）",why:"3・4列の水2マスと、1・2列の乾燥が確定。残る水1マスが必要です。",answer:"4行5列は水です。"},
+ {target:[10],v:1,where:"1列目（数字2）",why:"5行1列が水。1・2・4行1列は乾燥。残る水は1マスです。",answer:"3行1列は水です。"},
+ {target:[14],v:0,where:"5列目（数字3）",why:"2・4・5行5列に水が3マスそろいました。",answer:"3行5列は×です。"}
+];
+function tank(r,c){return REGIONS[r][c];}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(board));}catch(e){}}
+function load(){try{var saved=JSON.parse(localStorage.getItem(KEY));if(Array.isArray(saved)&&saved.length===25&&saved.every(function(v){return v===-1||v===0||v===1;})){board=saved;}}catch(e){}}
+function build(){
+ var tops=document.getElementById("top-clues"),left=document.getElementById("row-clues");
+ for(var c=0;c<5;c++){var top=document.createElement("div");top.className="line-clue";tops.appendChild(top);colEls.push(top);}
+ for(var r=0;r<5;r++){
+  var clue=document.createElement("div");clue.className="line-clue row-clue";left.appendChild(clue);rowEls.push(clue);
+  for(var cc=0;cc<5;cc++){
+   (function(rr,cl){
+    var el=document.createElement("button");el.type="button";el.className="cell unknown";
+    el.style.borderTopWidth=(rr===0||tank(rr-1,cl)!==tank(rr,cl)?"4px":"1px");
+    el.style.borderBottomWidth=(rr===4||tank(rr+1,cl)!==tank(rr,cl)?"4px":"1px");
+    el.style.borderLeftWidth=(cl===0||tank(rr,cl-1)!==tank(rr,cl)?"4px":"1px");
+    el.style.borderRightWidth=(cl===4||tank(rr,cl+1)!==tank(rr,cl)?"4px":"1px");
+    el.addEventListener("click",function(){tap(rr*5+cl,el);});
+    root.appendChild(el);cells.push(el);
+   })(r,cc);
+  }
+ }
+}
+function countLine(axis,index){
+ var wet=0,unknown=0;
+ for(var i=0;i<5;i++){
+  var v=axis==="row"?board[index*5+i]:board[i*5+index];
+  if(v===1)wet++;if(v===-1)unknown++;
+ }
+ return {wet:wet,unknown:unknown,required:(axis==="row"?ROWS:COLS)[index]};
+}
+function problems(){
+ var issues=[];
+ for(var i=0;i<5;i++){
+  var r=countLine("row",i),c=countLine("col",i);
+  if(r.wet>r.required||r.wet+r.unknown<r.required)issues.push((i+1)+"行目の水数");
+  if(c.wet>c.required||c.wet+c.unknown<c.required)issues.push((i+1)+"列目の水数");
+ }
+ for(var label of "ABCDEFG"){
+  var positions=[];
+  for(var k=0;k<25;k++)if(tank(Math.floor(k/5),k%5)===label)positions.push(k);
+  for(var a=0;a<positions.length;a++)for(var b=a+1;b<positions.length;b++){
+   var p=positions[a],q=positions[b],rp=Math.floor(p/5),rq=Math.floor(q/5);
+   if(rp===rq&&board[p]!==-1&&board[q]!==-1&&board[p]!==board[q]){issues.push("水槽"+label+"の水平");break;}
+   if(rp<rq&&board[p]===1&&board[q]===0){issues.push("水槽"+label+"の水位");break;}
+   if(rq<rp&&board[q]===1&&board[p]===0){issues.push("水槽"+label+"の水位");break;}
+  }
+ }
+ return Array.from(new Set(issues));
+}
+function isSolved(){return board.every(function(v){return v!==-1;})&&!problems().length&&ROWS.every(function(n,i){return countLine("row",i).wet===n;})&&COLS.every(function(n,i){return countLine("col",i).wet===n;});}
+function paint(clue,info){
+ clue.innerHTML='<span class="'+(info.wet===info.required?'clue-mark':'')+'">'+info.required+'</span>';
+ clue.classList.toggle("clue-met",info.wet===info.required);
+ clue.title=info.wet+" / "+info.required+" 水マス。数字が緑でもクリアとは限りません";
+}
+function render(){
+ for(var r=0;r<5;r++){paint(rowEls[r],countLine("row",r));paint(colEls[r],countLine("col",r));}
+ cells.forEach(function(el,i){
+  var v=board[i],rr=Math.floor(i/5),cc=i%5;
+  el.className="cell "+(v===1?"water":v===0?"dry":"unknown");
+  if(tank(rr,cc)===selectedRegion)el.classList.add("related");
+  if(v!==-1){var glyph=document.createElement("span");glyph.className="glyph";glyph.textContent=v===1?"≈":"×";el.textContent="";el.appendChild(glyph);}else el.textContent="";
+  el.setAttribute("aria-label",(rr+1)+"行"+(cc+1)+"列、水槽"+tank(rr,cc)+"、"+(v===1?"水":v===0?"乾燥":"未確定"));
+  el.setAttribute("aria-pressed",String(v!==-1));
+ });
+ document.getElementById("mode-water").setAttribute("aria-pressed",String(mode===1));
+ document.getElementById("mode-dry").setAttribute("aria-pressed",String(mode===0));
+ document.getElementById("undo").disabled=history.length===0;
+ var errors=problems();
+ var solved=isSolved();
+ status.className="status"+(solved?" good":errors.length?" warn":"");
+ if(solved){status.textContent="クリア！ すべての水の数と水槽の高さが一致しました。";}
+ else if(errors.length){status.textContent="確認してみましょう："+errors[0]+"に矛盾があります。未確定マスは間違い扱いしません。";}
+ else if(board.every(function(v){return v!==-1;})){status.className="status warn";status.textContent="全マス確定しましたが条件が一致しません。水数と水槽の高さを確認してください。";}
+ else if(finished){status.textContent="今日はここまで。続きはこのブラウザに保存されています。";}
+ else{status.textContent="入力を記録しました。数字が緑でも、全マス確定まではクリアになりません。";}
+ endbox.hidden=!solved;hintButton.disabled=solved;hintButton.textContent=solved?"クリア済み":hintStage<0?"ヒント：どこを見る？":hintStage===0?"ヒント：なぜそうなる？":hintStage===1?"ヒント：結論を見る":"ヒントを確認済み";
+}
+function noteTap(el){
+ if(document.getElementById("motion").checked&&!window.matchMedia("(prefers-reduced-motion: reduce)").matches){
+  var pop=document.createElement("span");pop.className="pop";el.appendChild(pop);setTimeout(function(){pop.remove();},440);
+ }
+ if(document.getElementById("vibration").checked&&navigator.vibrate)navigator.vibrate(9);
+ if(document.getElementById("sound").checked){
+  try{
+   var AC=window.AudioContext||window.webkitAudioContext;
+   if(!AC)return;
+   if(!audioCtx)audioCtx=new AC();
+   if(audioCtx.state==="suspended")audioCtx.resume();
+   var osc=audioCtx.createOscillator(),gain=audioCtx.createGain(),t=audioCtx.currentTime;
+   osc.type="sine";osc.frequency.setValueAtTime(440,t);osc.frequency.exponentialRampToValueAtTime(300,t+.075);
+   gain.gain.setValueAtTime(.0001,t);gain.gain.exponentialRampToValueAtTime(.045,t+.012);gain.gain.exponentialRampToValueAtTime(.0001,t+.085);
+   osc.connect(gain);gain.connect(audioCtx.destination);osc.start(t);osc.stop(t+.09);
+  }catch(e){}
+ }
+}
+function tap(i,el){
+ if(isSolved())return;
+ history.push(board.slice());if(history.length>100)history.shift();
+ board[i]=(board[i]===mode?-1:mode);
+ selectedRegion=tank(Math.floor(i/5),i%5);finished=false;save();
+ hintStage=-1;hintIndex=-1;hintBox.hidden=true;
+ render();noteTap(el);
+}
+function reset(){
+ if(!window.confirm("この問題の入力を消して、最初から遊びますか？"))return;
+ history.push(board.slice());board=Array(25).fill(-1);selectedRegion="";finished=false;hintStage=-1;hintIndex=-1;hintBox.hidden=true;save();render();
+}
+function showHint(){
+ var idx=hints.findIndex(function(h){return h.target.some(function(i){return board[i]!==h.v;});});
+ if(idx<0){hintBox.hidden=false;hintBox.textContent="ヒントはすべて確認済み。全マスと水槽の条件を見直してください。";return;}
+ if(hintIndex!==idx){hintIndex=idx;hintStage=0;}else{hintStage=Math.min(2,hintStage+1);}
+ var h=hints[idx];
+ var output="<strong>見るところ</strong><p>"+h.where+"</p>";
+ if(hintStage>=1)output+="<strong>理由</strong><p>"+h.why+"</p>";
+ if(hintStage>=2)output+="<strong>結論</strong><p>"+h.answer+"</p>";
+ hintBox.innerHTML=output;hintBox.hidden=false;
+ selectedRegion=tank(Math.floor(h.target[0]/5),h.target[0]%5);render();
+}
+document.getElementById("mode-water").addEventListener("click",function(){mode=1;render();});
+document.getElementById("mode-dry").addEventListener("click",function(){mode=0;render();});
+document.getElementById("undo").addEventListener("click",function(){if(!history.length)return;board=history.pop();finished=false;hintStage=-1;hintIndex=-1;hintBox.hidden=true;save();render();});
+document.getElementById("restart").addEventListener("click",reset);
+document.getElementById("play-again").addEventListener("click",reset);
+document.getElementById("finish").addEventListener("click",function(){finished=true;endbox.hidden=true;status.className="status";status.textContent="今日はここまで。遊んでくれてありがとう。";});
+hintButton.addEventListener("click",showHint);
+load();build();render();
+})();
+</script>
+</body>
+</html>
