@@ -2,7 +2,7 @@
 
 今は設計レビューと開発基盤を整える段階。以下の小さな試作をIssueで管理し、大規模実装・問題量産へ自動的に進めない。
 
-1. **原本受入と10問の独立再検証**: HTML受領が依存条件。公開前確認、原本登録、JSON抽出、全解数と保存解照合、試遊手順を整備する。
+1. **原本受入と10問の独立再検証**: 2026-10-31に原本登録・JSON抽出・全解数・保存解照合・分岐なしの推理ログを整備。代表的なブラウザ操作を確認。やり直しの完了確認はツール停止により残る。
 2. **理解と入力の比較試作**: 1の結果を基に、水槽の強調、未確定の区別、3問チュートリアルを実装。セル入力を基準に水位入力を少数問で比較する。
 3. **iPhone触覚の最小実験**: 対応実機とビルド環境が依存条件。泡・音・振動を同期する小さな画面で設定別に比較し、製品全体を作る前に触覚の価値を判定する。
 4. **30問の難度検証パイプライン**: 1と2の知見を基に、推論手順記録、難度指標、同型除去を作る。数百問生成は30問の質と試遊結果を確認してから判断する。
@@ -12,7 +12,7 @@
 ## GitHubでの進捗
 
 - [PR #1: 初期登録とレビュー](https://github.com/ishiishikou/pukupuku-aquarium/pull/1)
-- [Issue #2: 原本受入・10問の再検証（入力待ち）](https://github.com/ishiishikou/pukupuku-aquarium/issues/2)
+- [Issue #2: 原本受入・10問の再検証（操作確認の一部が残る）](https://github.com/ishiishikou/pukupuku-aquarium/issues/2)
 - [Issue #3: 理解と入力の比較](https://github.com/ishiishikou/pukupuku-aquarium/issues/3)
 - [Issue #4: iPhone触覚の比較](https://github.com/ishiishikou/pukupuku-aquarium/issues/4)
 - [Issue #5: 30問の難度検証](https://github.com/ishiishikou/pukupuku-aquarium/issues/5)

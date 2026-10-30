@@ -4,9 +4,9 @@ iPhone向けの、心地よいタップと泡・音・振動を楽しむカジ�
 
 ## 現在の状態
 
-2026-10-30: 設計レビューと検証基盤を初期登録。元のブラウザ試遊版HTML・プレイ録画は、この作業環境では未受領です。**元の10問の成立性・一意性は独立再検証できていません。試遊版の登録は未完了です。** 新規の説明用小問題を原本の代替として扱いません。
+2026-10-31: 原版HTMLを改変せず登録し、**10問すべての水位制約・一意解・保存解一致を独立に確認**しました。保存解を使わない推論でも全問を分岐なしで確定できました。初見の理解度・楽しさ・iPhoneの触覚は人による検証待ちです。録画は公開しません。
 
-## 現在のルール（引き継ぎ情報、実装との照合待ち）
+## 現在のルール
 
 1. 行・列の数字は、その行・列に水が入るマス数。
 2. 太い境界線で分かれた各水槽には、下から水がたまる。
@@ -17,18 +17,27 @@ iPhone向けの、心地よいタップと泡・音・振動を楽しむカジ�
 
 ## 試遊・検証方法
 
-元のHTMLが未受領のため、このブランチにはブラウザで遊べる試遊版はありません。受領後は内容・外部通信・素材を確認し、`prototype/original/` に登録して、この項を実ファイルに合わせて更新します。録画は公開対象外です。
+[原版HTML](prototype/original/pukupuku-aquarium-demo.html)をダウンロードしてブラウザで開くか、リポジトリ直下で次を実行します。GitHubのファイル表示はゲーム画面ではありません。
+
+```sh
+python -m http.server 8766 --bind 127.0.0.1 --directory prototype/original
+```
+
+URL: `http://127.0.0.1:8766/pukupuku-aquarium-demo.html`。水／×を選んでタップ、同じ状態を再タップで未確定へ。全マス確定でクリアし次問へ進めます。保存はlocalStorage。原版ヒントは答えの1マスを開ける方式です。
 
 いま確認できるのは[説明用4×4問題と推理手順](docs/tutorial.md)です。紙でも解けます。Python 3.11以上、追加パッケージ不要で検証できます。
 
 ```sh
 python scripts/verify.py examples/tutorial.json
+python scripts/audit_original.py
 python -m unittest discover -s scripts -p 'test_*.py'
 ```
 
 ## 資料
 
 - [設計レビューと代替案の比較](docs/design-review.md)
+- [原版の独立レビュー・操作確認](docs/original-review.md)
+- [原版10問の推理ログ](docs/original-logic-traces.md)
 - [推奨仕様・試作と評価計画](docs/recommended-spec.md)
 - [検証結果・未検証範囲・原本受入手順](docs/verification.md)
 - [開発計画](docs/implementation-plan.md)
