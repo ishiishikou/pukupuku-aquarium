@@ -1,0 +1,8 @@
+{
+  "id": "tutorial-4x4",
+  "provenance": "New review example; not one of the original ten puzzles",
+  "regions": ["AABB", "AACC", "DDEC", "FFEC"],
+  "rows": [0, 2, 3, 4],
+  "cols": [3, 3, 1, 2],
+  "solution": ["0000", "1100", "1101", "1111"]
+}
