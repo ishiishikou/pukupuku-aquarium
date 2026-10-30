@@ -8,3 +8,11 @@
 4. **30問の難度検証パイプライン**: 1と2の知見を基に、推論手順記録、難度指標、同型除去を作る。数百問生成は30問の質と試遊結果を確認してから判断する。
 
 水路、静的な生き物制約は[比較案](design-review.md)に留め、実装バックログへ昇格させない。各Issueは目的・前提・未完了scope・完了条件を持ち、別チャットは最新状態を読んでから着手する。今回は定期実行やWorker登録を行わない。
+
+## GitHubでの進捗
+
+- [PR #1: 初期登録とレビュー](https://github.com/ishiishikou/pukupuku-aquarium/pull/1)
+- [Issue #2: 原本受入・10問の再検証（入力待ち）](https://github.com/ishiishikou/pukupuku-aquarium/issues/2)
+- [Issue #3: 理解と入力の比較](https://github.com/ishiishikou/pukupuku-aquarium/issues/3)
+- [Issue #4: iPhone触覚の比較](https://github.com/ishiishikou/pukupuku-aquarium/issues/4)
+- [Issue #5: 30問の難度検証](https://github.com/ishiishikou/pukupuku-aquarium/issues/5)
