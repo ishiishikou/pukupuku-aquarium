@@ -1,3 +1,5 @@
+> **2026-11-01最新:** この文書は以前の段階的な試作計画。最終目標はApp Store一般公開であり、完成までのG0〜G5と品質ゲートは[App Storeマスターロードマップ](app-store-roadmap.md) / [Issue #7](https://github.com/ishiishikou/pukupuku-aquarium/issues/7) に従う。Apple Developer Programは登録済み（ユーザー申告）。約100母問題の再利用＋レベル/日次実績を前提とし、大量の独立問題の無制限生成は不要。ブラウザ版の入力快適性は評価しない。なぞり・音・触覚はiPhone実機で必達。
+
 # 次の実装計画
 
 今は設計レビューと開発基盤を整える段階。以下の小さな試作をIssueで管理し、大規模実装・問題量産へ自動的に進めない。
