@@ -1,6 +1,12 @@
 import Foundation
 import SwiftUI
 
+enum HapticStrength: String, CaseIterable, Identifiable {
+    case weak = "弱"
+    case normal = "標準"
+    var id: String { rawValue }
+}
+
 enum CellMark: Int, Codable {
     case unknown = -1
     case dry = 0
@@ -64,6 +70,9 @@ final class GameState: ObservableObject {
     @Published var mode: CellMark = .water
     @Published var soundEnabled = true
     @Published var hapticsEnabled = true
+    @Published var hapticStrength: HapticStrength = .normal {
+        didSet { UserDefaults.standard.set(hapticStrength.rawValue, forKey: "pukupuku.hapticStrength") }
+    }
     @Published var bubblesEnabled = true
     @Published private(set) var pulseIndex: Int?
     @Published private(set) var pulseSequence: UInt64 = 0
@@ -78,6 +87,8 @@ final class GameState: ObservableObject {
     var canUndo: Bool { !history.isEmpty }
 
     init() {
+        if let saved = UserDefaults.standard.string(forKey: "pukupuku.hapticStrength"),
+           let option = HapticStrength(rawValue: saved) { hapticStrength = option }
         if let raw = UserDefaults.standard.array(forKey: storageKey) as? [Int],
            raw.count == 25,
            raw.allSatisfy({ CellMark(rawValue: $0) != nil }) {
@@ -103,7 +114,7 @@ final class GameState: ObservableObject {
         UserDefaults.standard.set(cells.map(\.rawValue), forKey: storageKey)
         pulseIndex = index
         pulseSequence &+= 1
-        feedback.play(water: mode == .water, haptics: hapticsEnabled, sound: soundEnabled)
+        feedback.play(water: mode == .water, haptics: hapticsEnabled, sound: soundEnabled, strength: hapticStrength)
     }
 
     func endStroke() {
