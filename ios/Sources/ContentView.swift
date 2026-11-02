@@ -51,6 +51,12 @@ struct ContentView: View {
 
                 VStack(alignment: .leading, spacing: 4) {
                     Toggle("触覚", isOn: $game.hapticsEnabled)
+                    Picker("振動の強さ", selection: $game.hapticStrength) {
+                        ForEach(HapticStrength.allCases) { level in
+                            Text(level.rawValue).tag(level)
+                        }
+                    }
+                    .disabled(!game.hapticsEnabled)
                     Toggle("泡の音", isOn: $game.soundEnabled)
                     Toggle("泡の動き", isOn: $game.bubblesEnabled)
                 }
