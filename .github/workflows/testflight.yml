@@ -78,6 +78,9 @@ jobs:
       - name: Install build tools
         run: brew install xcodegen
 
+      - name: Generate prototype AppIcon
+        run: swift ios/scripts/GeneratePrototypeIcon.swift
+
       - name: Generate project
         run: cd ios && xcodegen generate
 
