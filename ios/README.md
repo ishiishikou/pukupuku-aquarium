@@ -16,7 +16,7 @@ The GitHub Actions workflow in .github/workflows/ios-simulator-build.yml can bui
 2. Generate the project with xcodegen generate inside ios/ and open PukupukuAquarium.xcodeproj in Xcode.
 3. Select the existing Apple Developer team and **replace the placeholder** jp.example.pukupuku-aquarium with a bundle identifier controlled by the account.
 4. Build to a device or archive/upload a signed build through the Apple distribution pipeline; this step requires permissions/secrets not embedded in this public repository.
-5. Test drags in every direction, repeated visits, rapid swipes, interruptions, mute, settings, 10-minute fatigue, and compare haptics off/low/normal. This code currently exposes only one prototype haptic strength; low/normal controls and the final tuning are *pending*.
+5. Test drags in every direction, repeated visits, rapid swipes, interruptions, mute, settings, 10-minute fatigue, and compare haptics off/low/normal. The app now exposes weak/normal prototype settings. Final intensity/timing tuning is *pending real-device testing*.
 
 Nothing in this repository claims developer enrollment is missing: the user reported that enrollment is complete. No secret, private key, provisioning profile or App Store credential should be committed.
 
