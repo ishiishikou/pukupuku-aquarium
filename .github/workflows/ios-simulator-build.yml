@@ -5,14 +5,10 @@ on:
       - "ios/**"
       - ".github/workflows/ios-simulator-build.yml"
       - ".github/workflows/testflight.yml"
-  push:
-    branches:
-      - "codex/ios-vertical-slice-20261102"
-    paths:
-      - "ios/**"
-      - ".github/workflows/ios-simulator-build.yml"
-      - ".github/workflows/testflight.yml"
   workflow_dispatch:
+concurrency:
+  group: ios-simulator-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 jobs:
   simulator:
     runs-on: macos-latest
