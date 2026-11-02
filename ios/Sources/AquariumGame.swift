@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 
 enum HapticStrength: String, CaseIterable, Identifiable {
-    case weak = "弱"
+    case soft = "弱"
     case normal = "標準"
     var id: String { rawValue }
 }
