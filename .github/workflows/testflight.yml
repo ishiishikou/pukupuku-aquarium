@@ -29,6 +29,7 @@ concurrency:
 jobs:
   build-and-upload:
     name: Build and upload to TestFlight
+    if: github.ref == 'refs/heads/main'
     runs-on: macos-latest
     timeout-minutes: 90
     environment: testflight
