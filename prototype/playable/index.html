@@ -169,13 +169,13 @@ function render(){
  var errors=problems();
  var solved=isSolved();
  status.className="status"+(solved?" good":errors.length?" warn":"");
- if(solved){status.textContent="クリア！ すべての水の数と水槽の高さが一致しました。";}
+ if(solved){status.textContent=finished?"今日はここまで。遊んでくれてありがとう。":"クリア！ すべての水の数と水槽の高さが一致しました。";}
  else if(errors.length){status.textContent="確認してみましょう："+errors[0]+"に矛盾があります。未確定マスは間違い扱いしません。";}
  else if(board.every(function(v){return v!==-1;})){status.className="status warn";status.textContent="全マス確定しましたが条件が一致しません。水数と水槽の高さを確認してください。";}
  else if(finished){status.textContent="今日はここまで。続きはこのブラウザに保存されています。";}
  else if(board.every(function(v){return v===-1;})){status.textContent="まずは0の行と5の行を探してみましょう。";}
  else{status.textContent="入力を記録しました。数字が緑でも、全マス確定まではクリアになりません。";}
- endbox.hidden=!solved;hintButton.disabled=solved;hintButton.textContent=solved?"クリア済み":hintStage<0?"ヒント：どこを見る？":hintStage===0?"ヒント：なぜそうなる？":hintStage===1?"ヒント：結論を見る":"ヒントを確認済み";
+ endbox.hidden=!solved||finished;hintButton.disabled=solved;hintButton.textContent=solved?"クリア済み":hintStage<0?"ヒント：どこを見る？":hintStage===0?"ヒント：なぜそうなる？":hintStage===1?"ヒント：結論を見る":"ヒントを確認済み";
 }
 function noteTap(el){
  if(document.getElementById("motion").checked&&!window.matchMedia("(prefers-reduced-motion: reduce)").matches){
@@ -223,7 +223,7 @@ document.getElementById("mode-dry").addEventListener("click",function(){mode=0;r
 document.getElementById("undo").addEventListener("click",function(){if(!history.length)return;board=history.pop();finished=false;hintStage=-1;hintIndex=-1;hintBox.hidden=true;save();render();});
 document.getElementById("restart").addEventListener("click",reset);
 document.getElementById("play-again").addEventListener("click",reset);
-document.getElementById("finish").addEventListener("click",function(){finished=true;endbox.hidden=true;status.className="status";status.textContent="今日はここまで。遊んでくれてありがとう。";});
+document.getElementById("finish").addEventListener("click",function(){finished=true;render();});
 hintButton.addEventListener("click",showHint);
 load();build();render();
 })();
