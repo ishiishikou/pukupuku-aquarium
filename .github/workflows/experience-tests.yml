@@ -1,0 +1,35 @@
+name: Puzzle experience tests
+on:
+  push:
+    branches:
+      - codex/five-puzzle-experience-20261102
+    paths:
+      - "prototype/experience/**"
+      - "scripts/verify_experience.py"
+      - "scripts/browser-experience.cjs"
+      - ".github/workflows/experience-tests.yml"
+  pull_request:
+    paths:
+      - "prototype/experience/**"
+      - "scripts/verify_experience.py"
+      - "scripts/browser-experience.cjs"
+      - ".github/workflows/experience-tests.yml"
+  workflow_dispatch:
+jobs:
+  mathematics-and-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Independent full-water-level and domain-propagation verification
+        run: python scripts/verify_experience.py
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install browser driver
+        run: npm install --no-save playwright-core
+      - name: Chromium/Google Chrome UI smoke
+        run: node scripts/browser-experience.cjs
