@@ -4,12 +4,14 @@ on:
     paths:
       - "ios/**"
       - ".github/workflows/ios-simulator-build.yml"
+      - ".github/workflows/testflight.yml"
   push:
     branches:
       - "codex/ios-vertical-slice-20261102"
     paths:
       - "ios/**"
       - ".github/workflows/ios-simulator-build.yml"
+      - ".github/workflows/testflight.yml"
   workflow_dispatch:
 jobs:
   simulator:
@@ -17,6 +19,9 @@ jobs:
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
+      - name: Lint manual TestFlight workflow YAML without accessing credentials
+        run: |
+          ruby -e 'require "yaml"; YAML.parse_file(".github/workflows/testflight.yml"); puts "TestFlight YAML syntax OK"'
       - name: Xcode version
         run: xcodebuild -version
       - name: Install project generator
@@ -54,3 +59,16 @@ jobs:
             -destination "platform=iOS Simulator,id=$DEST" \
             CODE_SIGNING_ALLOWED=NO \
             test
+
+      - name: Archive unsigned Release for physical iPhone target
+        working-directory: ios
+        run: |
+          set -o pipefail
+          xcodebuild \
+            -project PukupukuAquarium.xcodeproj \
+            -scheme PukupukuAquarium \
+            -configuration Release \
+            -destination 'generic/platform=iOS' \
+            -archivePath "$RUNNER_TEMP/PukupukuUnsigned.xcarchive" \
+            CODE_SIGNING_ALLOWED=NO \
+            archive
