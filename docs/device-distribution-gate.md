@@ -1,6 +1,6 @@
 # G1 real iPhone delivery gate — evidence and first authorized action
 
-> 2026-11-03 update: User confirmed **no Mac** and prior self-built iPhone TestFlight installation. GitHub connector found an existing ShareCheck manual TestFlight distribution workflow. The Windows-only GitHub Actions path (Route B) is now the selected route. See [the actual reuse guide](testflight-sharecheck-reuse.md) and the new manual deployment workflow under PR #9. Route A below is retained as an alternative, not a task for this user. No signing assets or TestFlight upload have been verified for pukupuku-aquarium.
+> 2026-11-03 update: User confirmed **no Mac** and prior self-built iPhone TestFlight installation. GitHub connector verified the existing Pribye manual TestFlight workflow, which the user identified as their previous working route. The Windows-only GitHub Actions path (Route B) is now the selected route. See [the corrected Pribye reuse guide](testflight-pribye-reuse.md) and the new manual deployment workflow under PR #9. Route A below is retained as an alternative, not a task for this user. No signing assets or TestFlight upload have been verified for pukupuku-aquarium.
 
 Date: 2026-11-02 · owner: Issue #4 / release summary: Issue #7 · source: Draft PR #9.
 
@@ -57,6 +57,6 @@ Apple references:
 | Off / weak / normal, silent mode, interruption and 10-minute comfort | Not observed |
 | Record user perception independently of puzzle solving | Not collected |
 
-**Selected route:** Route B, reuse the existing ShareCheck-style macOS GitHub Actions pipeline. The next human action is app-specific Bundle ID / App Store Connect record and protected GitHub environment signing access, not procuring a Mac. See testflight-sharecheck-reuse.md. Device installation has not yet occurred.
+**Selected route:** Route B, reuse the existing Pribye-style macOS GitHub Actions pipeline. The next human action is app-specific Bundle ID / App Store Connect record and protected GitHub environment signing access, not procuring a Mac. See testflight-pribye-reuse.md. Device installation has not yet occurred.
 
 A successful TestFlight build will still be a prototype acceptance milestone, **not** App Store public release.
