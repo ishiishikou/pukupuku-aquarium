@@ -32,7 +32,7 @@ button{font:inherit;cursor:pointer;touch-action:manipulation}.modes,.actions,.ch
 <div class="actions"><button id="undo">↶ 戻す</button><button id="hintBtn">ヒント</button><button id="restart">やり直す</button></div>
 <div id="hint" class="hint" hidden></div><p id="status" class="status" aria-live="polite"></p>
 <div id="choice" class="choices" hidden><button id="continue" class="primary">もう1問</button><button id="stop">今日はここまで</button></div>
-<div id="finish" class="finish" hidden></div>
+<div id="finish" class="finish" hidden></div><button id="resume" class="primary" hidden style="width:100%;min-height:44px;border-radius:12px;border:0">続きから再開</button>
 </section>
 <section class="card"><b>水槽のルール</b><ol class="rule"><li>行と列の数字＝水が入るマス数</li><li>同じ水槽の同じ高さは全部水か全部×</li><li>各水槽の水は下の段からたまる</li></ol><div class="bar"><span class="tiny">入力方式・音・振動はブラウザ版では評価対象外です。</span><button id="skip" style="border:none;background:transparent;color:#0f889d;text-decoration:underline;font-size:12px">導入をスキップ</button></div></section>
 </main>
@@ -128,6 +128,8 @@ function render(){
  $("status").textContent=done?"クリア！ ここまでの気づきを振り返ってください。":conflicts.length?"確定した数字や水槽に矛盾の可能性："+conflicts[0]:"数字に合う水槽の高さを推理してください。";
  $("choice").hidden=!done||ended;
  $("finish").hidden=!ended;
+ $("finish").textContent=ended?"今日はここまで。続きはこのブラウザに保存しました。":"";
+ $("resume").hidden=!ended||index===8;
  $("skip").hidden=index>=3;
  if(done) {$("hintBtn").disabled=true;if(index===8){$("choice").hidden=true;$("finish").hidden=false;$("finish").textContent="追加の1問もクリアしました。ここで終了です。";}else if(index<7) {$("continue").textContent="次の問題へ";$("stop").textContent="今日はここまで";}else{$("continue").textContent="もう1問";$("stop").textContent="今日はここまで";}}
  else {$("hintBtn").disabled=false;}
@@ -141,7 +143,8 @@ $("hintBtn").onclick=()=>{const p=current();if(!currentHint||hintStage>=2){curre
  $("hint").hidden=false;render();
  $("hint").hidden=false;};
 $("continue").onclick=()=>{if(index===7){observedChoice=true;save();}advance()};
-$("stop").onclick=()=>{observedChoice=index===7?"stopped":observedChoice;save();ended=true;save();render();$("finish").textContent="今日はここまで。続きはこのブラウザに保存しました。";};
+$("stop").onclick=()=>{observedChoice=index===7?"stopped":observedChoice;ended=true;save();render();};
+$("resume").onclick=()=>{ended=false;save();render();};
 $("skip").onclick=()=>{index=3;marks=Array(25).fill(-1);history=[];save();render()};
 load();if(!marks.length)marks=Array(n(current())**2).fill(-1);render();
 window.__pukupukuTest={exercises,valid};
