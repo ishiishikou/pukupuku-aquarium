@@ -41,7 +41,7 @@ final class FeedbackEngine {
         if haptics, let engine {
             do {
                 // Differentiate water and dry, never encode correctness.
-                let intensity: Float = strength == .weak ? (water ? 0.19 : 0.10) : (water ? 0.42 : 0.23)
+                let intensity: Float = strength == .soft ? (water ? 0.19 : 0.10) : (water ? 0.42 : 0.23)
                 let event = CHHapticEvent(
                     eventType: .hapticTransient,
                     parameters: [
