@@ -220,7 +220,7 @@ function showHint(){
 }
 document.getElementById("mode-water").addEventListener("click",function(){mode=1;render();});
 document.getElementById("mode-dry").addEventListener("click",function(){mode=0;render();});
-document.getElementById("undo").addEventListener("click",function(){if(!history.length)return;board=history.pop();finished=false;hintStage=-1;hintIndex=-1;hintBox.hidden=true;save();render();});
+document.getElementById("undo").addEventListener("click",function(){if(!history.length)return;board=history.pop();selectedRegion="";finished=false;hintStage=-1;hintIndex=-1;hintBox.hidden=true;save();render();});
 document.getElementById("restart").addEventListener("click",reset);
 document.getElementById("play-again").addEventListener("click",reset);
 document.getElementById("finish").addEventListener("click",function(){finished=true;render();});
