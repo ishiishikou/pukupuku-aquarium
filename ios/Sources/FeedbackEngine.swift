@@ -37,14 +37,15 @@ final class FeedbackEngine {
         }
     }
 
-    func play(water: Bool, haptics: Bool, sound: Bool) {
+    func play(water: Bool, haptics: Bool, sound: Bool, strength: HapticStrength) {
         if haptics, let engine {
             do {
                 // Differentiate water and dry, never encode correctness.
+                let intensity: Float = strength == .weak ? (water ? 0.19 : 0.10) : (water ? 0.42 : 0.23)
                 let event = CHHapticEvent(
                     eventType: .hapticTransient,
                     parameters: [
-                        CHHapticEventParameter(parameterID: .hapticIntensity, value: water ? 0.42 : 0.23),
+                        CHHapticEventParameter(parameterID: .hapticIntensity, value: intensity),
                         CHHapticEventParameter(parameterID: .hapticSharpness, value: water ? 0.23 : 0.67)
                     ],
                     relativeTime: 0
