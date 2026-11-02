@@ -26,6 +26,8 @@ jobs:
         run: xcodebuild -version
       - name: Install project generator
         run: brew install xcodegen
+      - name: Generate prototype AppIcon
+        run: swift ios/scripts/GeneratePrototypeIcon.swift
       - name: Generate project
         working-directory: ios
         run: xcodegen generate
