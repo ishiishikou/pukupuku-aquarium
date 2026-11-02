@@ -63,6 +63,12 @@ function solve(p) {
   if(index===7){
    const names=await page.locator('#choice button').allInnerTexts();
    assert.deepEqual(names,['もう1問','今日はここまで']);
+   await page.locator('#stop').click();
+   assert.equal(await page.locator('#choice').isVisible(),false);
+   await page.reload();
+   assert.equal(await page.locator('#finish').isVisible(),true);
+   await page.locator('#resume').click();
+   assert.equal(await page.locator('#choice').isVisible(),true);
   }
   if(index<8)await page.locator('#continue').click();
   console.log('BROWSER PASS',p.id,n+'x'+n);
