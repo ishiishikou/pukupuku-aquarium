@@ -36,3 +36,21 @@ jobs:
             -destination 'generic/platform=iOS Simulator' \
             CODE_SIGNING_ALLOWED=NO \
             build
+      - name: Select available iPhone simulator and run unit tests
+        working-directory: ios
+        run: |
+          set -o pipefail
+          DEST=$(python3 - <<'PY'
+          import json, subprocess
+          doc=json.loads(subprocess.check_output(["xcrun", "simctl", "list", "devices", "available", "--json"]))
+          phones=[x["udid"] for entries in doc["devices"].values() for x in entries if x.get("isAvailable") and x["name"].startswith("iPhone")]
+          if not phones: raise SystemExit("No available iPhone simulator; XCTest not verified")
+          print(phones[0])
+          PY
+          )
+          xcodebuild \
+            -project PukupukuAquarium.xcodeproj \
+            -scheme PukupukuAquarium \
+            -destination "platform=iOS Simulator,id=$DEST" \
+            CODE_SIGNING_ALLOWED=NO \
+            test
