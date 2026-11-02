@@ -1,5 +1,7 @@
 # G1 real iPhone delivery gate — evidence and first authorized action
 
+> 2026-11-03 update: User confirmed **no Mac** and prior self-built iPhone TestFlight installation. GitHub connector found an existing ShareCheck manual TestFlight distribution workflow. The Windows-only GitHub Actions path (Route B) is now the selected route. See [the actual reuse guide](testflight-sharecheck-reuse.md) and the new manual deployment workflow under PR #9. Route A below is retained as an alternative, not a task for this user. No signing assets or TestFlight upload have been verified for pukupuku-aquarium.
+
 Date: 2026-11-02 · owner: Issue #4 / release summary: Issue #7 · source: Draft PR #9.
 
 **Current evidence**
@@ -12,7 +14,7 @@ Date: 2026-11-02 · owner: Issue #4 / release summary: Issue #7 · source: Draft
 
 ### Route A: authorized Mac and Xcode (least provisioning complexity)
 
-1. Obtain access to a Mac with a supported macOS/Xcode and sign in using an **authorized Apple developer account in Xcode**. The user has not yet confirmed access to such a Mac; do not assume it.
+1. Obtain access to a Mac with a supported macOS/Xcode and sign in using an **authorized Apple developer account in Xcode**. The user confirmed no Mac is available; this route does not currently apply.
 2. On the Mac, check out the branch codex/ios-vertical-slice-20261102 from this public repository. Install XcodeGen (via Homebrew if available).
 3. Inside ios/, run xcodegen generate; open PukupukuAquarium.xcodeproj.
 4. Under target Signing & Capabilities, choose the existing Apple Developer team, replace the placeholder bundle ID with an account-controlled unique identifier, and enable Automatically manage signing.
@@ -55,6 +57,6 @@ Apple references:
 | Off / weak / normal, silent mode, interruption and 10-minute comfort | Not observed |
 | Record user perception independently of puzzle solving | Not collected |
 
-**Next user action, only after branch and distribution method are confirmed:** identify whether an authorized Mac with Xcode can be used. If yes, Route A above is the smallest manual step. If not, choose Route B and provide signing access in GitHub/Apple UIs — **not inside the conversation**. We should not claim that this decision or actual device installation has occurred.
+**Selected route:** Route B, reuse the existing ShareCheck-style macOS GitHub Actions pipeline. The next human action is app-specific Bundle ID / App Store Connect record and protected GitHub environment signing access, not procuring a Mac. See testflight-sharecheck-reuse.md. Device installation has not yet occurred.
 
 A successful TestFlight build will still be a prototype acceptance milestone, **not** App Store public release.
