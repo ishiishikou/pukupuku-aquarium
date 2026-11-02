@@ -1,5 +1,7 @@
 # iPhone native vertical slice — Issue #4
 
+> Updated 2026-11-03: User has **no Mac** and previously installed a self-built app via **Pribye** TestFlight. We verified the actual Pribye GitHub Actions workflow and adapted it for Pukupuku in `.github/workflows/testflight.yml`. See `docs/testflight-pribye-reuse.md`. The Mac/Xcode steps below are optional alternatives, not instructions for this user. Signing and upload are not yet verified.
+
 This is a **source-only, unsigned, single-puzzle vertical slice**, not a production app or verified haptic experience. The official browser prototype in PR #6 independently evaluates logical deduction. The native app tests gesture mechanics and sensory feedback on an iPhone.
 
 ## What is implemented
