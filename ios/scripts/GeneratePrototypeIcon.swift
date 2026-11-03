@@ -10,12 +10,12 @@ guard let bitmap = NSBitmapImageRep(
     pixelsWide: side,
     pixelsHigh: side,
     bitsPerSample: 8,
-    samplesPerPixel: 4,
+    samplesPerPixel: 3,
     hasAlpha: false,
     isPlanar: false,
     colorSpaceName: .deviceRGB,
     bytesPerRow: 0,
-    bitsPerPixel: 0
+    bitsPerPixel: 24
 ), let context = NSGraphicsContext(bitmapImageRep: bitmap) else {
     fatalError("Unable to allocate prototype AppIcon bitmap")
 }
