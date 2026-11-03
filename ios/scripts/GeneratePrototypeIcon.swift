@@ -1,51 +1,45 @@
-// Create an original temporary 1024x1024 AppIcon at build time.
-// Packaging placeholder only, not approved App Store branding.
-// Usage (from repository root): swift ios/scripts/GeneratePrototypeIcon.swift
-import AppKit
+// Original temporary packaging artwork, not the final App Store icon.
+// Run on macOS from repository root: swift ios/scripts/GeneratePrototypeIcon.swift
 import Foundation
+import CoreGraphics
+import ImageIO
+import UniformTypeIdentifiers
 
 let side = 1024
-guard let bitmap = NSBitmapImageRep(
-    bitmapDataPlanes: nil,
-    pixelsWide: side,
-    pixelsHigh: side,
-    bitsPerSample: 8,
-    samplesPerPixel: 3,
-    hasAlpha: false,
-    isPlanar: false,
-    colorSpaceName: .deviceRGB,
-    bytesPerRow: 0,
-    bitsPerPixel: 24
-), let context = NSGraphicsContext(bitmapImageRep: bitmap) else {
-    fatalError("Unable to allocate prototype AppIcon bitmap")
+guard let context = CGContext(
+    data: nil,
+    width: side,
+    height: side,
+    bitsPerComponent: 8,
+    bytesPerRow: side * 4,
+    space: CGColorSpaceCreateDeviceRGB(),
+    bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue
+) else {
+    fatalError("Could not create opaque RGB drawing context")
 }
+context.setFillColor(CGColor(red: 0.10, green: 0.68, blue: 0.79, alpha: 1))
+context.fill(CGRect(x: 0, y: 0, width: side, height: side))
 
-NSGraphicsContext.saveGraphicsState()
-NSGraphicsContext.current = context
-let bounds = NSRect(x: 0, y: 0, width: side, height: side)
-NSColor(calibratedRed: 0.10, green: 0.68, blue: 0.79, alpha: 1).setFill()
-NSBezierPath(rect: bounds).fill()
-
-func filledBubble(_ x: CGFloat, _ y: CGFloat, _ diameter: CGFloat, _ opacity: CGFloat) {
-    let ellipse = NSBezierPath(ovalIn: NSRect(x: x, y: y, width: diameter, height: diameter))
-    NSColor(calibratedRed: 0.87, green: 1, blue: 1, alpha: opacity).setFill()
-    ellipse.fill()
+func bubble(_ x: CGFloat, _ y: CGFloat, _ diameter: CGFloat, _ opacity: CGFloat) {
+    context.setFillColor(CGColor(red: 0.87, green: 1, blue: 1, alpha: opacity))
+    context.fillEllipse(in: CGRect(x: x, y: y, width: diameter, height: diameter))
 }
-filledBubble(230, 150, 580, 0.45)
-filledBubble(330, 370, 310, 0.80)
-filledBubble(640, 650, 130, 0.65)
-filledBubble(200, 690, 100, 0.73)
-filledBubble(700, 300, 70, 0.62)
+bubble(230, 150, 580, 0.45)
+bubble(330, 370, 310, 0.80)
+bubble(640, 650, 130, 0.65)
+bubble(200, 690, 100, 0.73)
+bubble(700, 300, 70, 0.62)
 
-NSGraphicsContext.current?.flushGraphics()
-NSGraphicsContext.restoreGraphicsState()
-
+guard let image = context.makeImage() else { fatalError("No icon image") }
 let base = "ios/Sources/Assets.xcassets/AppIcon.appiconset"
 try FileManager.default.createDirectory(atPath: base, withIntermediateDirectories: true)
-guard let png = bitmap.representation(using: .png, properties: [:]) else {
-    fatalError("Unable to produce AppIcon PNG")
+let data = NSMutableData()
+guard let destination = CGImageDestinationCreateWithData(data, UTType.png.identifier as CFString, 1, nil) else {
+    fatalError("Unable to create PNG destination")
 }
-try png.write(to: URL(fileURLWithPath: base + "/AppIcon-1024.png"))
+CGImageDestinationAddImage(destination, image, nil)
+guard CGImageDestinationFinalize(destination) else { fatalError("PNG conversion failed") }
+try (data as Data).write(to: URL(fileURLWithPath: base + "/AppIcon-1024.png"))
 let manifest = """
 {
   "images": [
@@ -55,4 +49,4 @@ let manifest = """
 }
 """
 try manifest.write(toFile: base + "/Contents.json", atomically: true, encoding: .utf8)
-print("Created temporary iOS AppIcon (1024x1024)")
+print("Generated temporary opaque 1024x1024 iOS AppIcon")
