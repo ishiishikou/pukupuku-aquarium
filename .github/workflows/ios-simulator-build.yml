@@ -1,0 +1,72 @@
+name: iOS simulator build
+on:
+  pull_request:
+    paths:
+      - "ios/**"
+      - ".github/workflows/ios-simulator-build.yml"
+      - ".github/workflows/testflight.yml"
+  workflow_dispatch:
+concurrency:
+  group: ios-simulator-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  simulator:
+    runs-on: macos-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Lint manual TestFlight workflow YAML without accessing credentials
+        run: |
+          ruby -e 'require "yaml"; YAML.parse_file(".github/workflows/testflight.yml"); puts "TestFlight YAML syntax OK"'
+      - name: Xcode version
+        run: xcodebuild -version
+      - name: Install project generator
+        run: brew install xcodegen
+      - name: Generate prototype AppIcon
+        run: swift ios/scripts/GeneratePrototypeIcon.swift
+      - name: Generate project
+        working-directory: ios
+        run: xcodegen generate
+      - name: Build without signing
+        working-directory: ios
+        run: |
+          set -o pipefail
+          xcodebuild \
+            -project PukupukuAquarium.xcodeproj \
+            -scheme PukupukuAquarium \
+            -configuration Debug \
+            -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO \
+            build
+      - name: Select available iPhone simulator and run unit tests
+        working-directory: ios
+        run: |
+          set -o pipefail
+          DEST=$(python3 - <<'PY'
+          import json, subprocess
+          doc=json.loads(subprocess.check_output(["xcrun", "simctl", "list", "devices", "available", "--json"]))
+          phones=[x["udid"] for entries in doc["devices"].values() for x in entries if x.get("isAvailable") and x["name"].startswith("iPhone")]
+          if not phones: raise SystemExit("No available iPhone simulator; XCTest not verified")
+          print(phones[0])
+          PY
+          )
+          xcodebuild \
+            -project PukupukuAquarium.xcodeproj \
+            -scheme PukupukuAquarium \
+            -destination "platform=iOS Simulator,id=$DEST" \
+            CODE_SIGNING_ALLOWED=NO \
+            test
+
+      - name: Archive unsigned Release for physical iPhone target
+        working-directory: ios
+        run: |
+          set -o pipefail
+          xcodebuild \
+            -project PukupukuAquarium.xcodeproj \
+            -scheme PukupukuAquarium \
+            -configuration Release \
+            -destination 'generic/platform=iOS' \
+            -archivePath "$RUNNER_TEMP/PukupukuUnsigned.xcarchive" \
+            CODE_SIGNING_ALLOWED=NO \
+            archive
