@@ -15,13 +15,13 @@ targets:
       - path: Sources
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: jp.example.pukupuku-aquarium
+        PRODUCT_BUNDLE_IDENTIFIER: com.ishiishikou.pukupukuaquarium
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
         INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
         INFOPLIST_KEY_CFBundleDisplayName: "ぷくぷく水槽"
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
-        DEVELOPMENT_TEAM: ""
+        DEVELOPMENT_TEAM: "2QA6W85W3D"
         CODE_SIGN_STYLE: Automatic
   PukupukuAquariumTests:
     type: bundle.unit-test
@@ -32,7 +32,7 @@ targets:
       - target: PukupukuAquarium
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: jp.example.pukupuku-aquarium.tests
+        PRODUCT_BUNDLE_IDENTIFIER: com.ishiishikou.pukupukuaquarium.tests
         GENERATE_INFOPLIST_FILE: YES
 schemes:
   PukupukuAquarium:
